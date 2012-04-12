@@ -1,0 +1,25 @@
+#!/bin/bash
+#instruo -g -D /var/paludis/repositories/keruspe/ --extra-repository-dir /var/paludis/repositories/gentoo/ -o /var/paludis/repositories/keruspe/metadata/cache/
+
+REPOSITORIES_PATH="/var/paludis/repositories"
+DEPTH=$[$(echo ${REPOSITORIES_PATH} | sed 's:/:\n:g' | wc -l)+2]
+
+digestify() {
+	for i in $(find ${REPOSITORIES_PATH}/${1} -mindepth 2 -maxdepth 2 -type d | grep -Ev '(.git|profiles|metadata)' | sort -u); do
+		cave digest $(echo $i | cut -d'/' -f${DEPTH}-) ${1}
+	done
+}
+
+update_categories() {
+    pushd ${REPOSITORIES_PATH}/${1} &>/dev/null
+    find . -maxdepth 1 -type d -name '*-*' -printf "%f\n" | sort > profiles/categories
+    popd &>/dev/null
+}
+
+main() {
+    digestify ${1}
+    update_categories ${1}
+}
+
+main keruspe
+

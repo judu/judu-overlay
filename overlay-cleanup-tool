@@ -1,0 +1,40 @@
+#!/bin/bash
+
+REPOSITORIES_PATH="/var/paludis/repositories"
+VDB_PATH="/var/db/pkg"
+
+find_duplicates() {
+  local first_path=${REPOSITORIES_PATH}/${1}
+  local second_path=${REPOSITORIES_PATH}/${2}
+  pushd ${first_path} &>/dev/null
+  echo "Duplicate packages between ${1} and ${2}:"
+  echo
+  for i in $(find . -name '*.ebuild' | sort -u); do 
+    ls ${second_path}/${i} &>/dev/null && echo ${i} | sed 's:./\([^/]*\)/[^/]*/\([^/]*\).ebuild:\1/\2:'
+  done
+  echo
+  popd &>/dev/null
+}
+
+find_unused() {
+  local repo_path=${REPOSITORIES_PATH}/${1}
+  pushd ${repo_path} &>/dev/null
+  echo "Unused packages in ${1}:"
+  echo
+  for i in $(find . -name '*.ebuild' | sed 's:./\([^/]*\)/[^/]*/\([^/]*\).ebuild:\1/\2:' | sort -u); do
+    ls ${VDB_PATH}/${i} &>/dev/null || echo ${i}
+  done
+  echo
+  popd &>/dev/null
+}
+
+main() {
+  for i in gnome gentoo systemd; do
+    find_duplicates ${1} ${i}
+  done
+  find_unused systemd | grep -Ev '(avahi|/systemd|networkmanager|wpa_supplicant|bootchart2)'
+  find_unused ${1} | grep -Ev '(bomb-her-man|gnome-paint|librabbitmq|gpaste|germinal)'
+}
+
+main keruspe
+
