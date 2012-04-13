@@ -31,7 +31,7 @@ src_install() {
 	fperms 755 "${dir}/bin/${MY_PN}.sh"
 	local exe=${MY_PN}-${SLOT}
 	local icon=${exe}.png
-	newicon "bin/${MY_PN}_CE32.png" ${icon}
+	newicon "bin/idea.png" ${icon}
 	dodir /usr/bin
 	make_wrapper "$exe" "/opt/${P}/bin/${MY_PN}.sh"
 	make_desktop_entry ${exe} "IntelliJ IDEA ${PV}" ${icon} "Development;IDE"
