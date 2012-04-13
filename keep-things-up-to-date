@@ -1,5 +1,4 @@
 #!/bin/bash
-#instruo -g -D /var/paludis/repositories/keruspe/ --extra-repository-dir /var/paludis/repositories/gentoo/ -o /var/paludis/repositories/keruspe/metadata/cache/
 
 REPOSITORIES_PATH="/var/paludis/repositories"
 DEPTH=$[$(echo ${REPOSITORIES_PATH} | sed 's:/:\n:g' | wc -l)+2]
@@ -21,5 +20,5 @@ main() {
     update_categories ${1}
 }
 
-main keruspe
+main judu
 
