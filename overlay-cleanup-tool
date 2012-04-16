@@ -36,5 +36,5 @@ main() {
   find_unused ${1} | grep -Ev '(bomb-her-man|gnome-paint|librabbitmq|gpaste|germinal)'
 }
 
-main keruspe
+main judu
 
