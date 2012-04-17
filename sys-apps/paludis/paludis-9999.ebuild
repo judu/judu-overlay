@@ -2,7 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="paludis-1"
+EAPI="4"
 inherit bash-completion-r1 eutils git-2
 
 DESCRIPTION="paludis, the other package mangler"
